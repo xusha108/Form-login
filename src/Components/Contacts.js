@@ -1,21 +1,55 @@
 import React, { Component } from 'react';
-import '../assets/Contacts.scss';
+import axios from 'axios';
+import '../assets/contacts.scss';
+
+import SearchBar from './SearchBar'
 
 export default class Contacts extends Component {
-  render() {
+  state = {
+    persons: [],   
+  }
+
+  componentDidMount() {
+    axios
+    .get('http://www.filltext.com/?rows=32&id={number|1000}&firstName={firstName}&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}')
+    .then(res => {      
+        this.setState({ persons: res.data })
+        console.log('personsState', this.state.persons)    
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+  }
+
+  removeContact  = (id) => {   
+    console.log('remove item', id)
+    const persons = this.state.persons
+    const removeId = persons.filter(item => item.id !== id);
+    this.setState({ persons: removeId });     
+  };
+
+  render() {  
     return (
       <div className='contacts'>
         <h2 className='login__title'>Contacts</h2>
 
-        <div className='login__input'>          
-          <input type='text' placeholder='search'></input>
-        </div>
+        <SearchBar />
 
-        <div>person1</div>
-        <div>person2</div>
-        <div>person3</div>
-        <div>person4</div>
-        <div>person5</div>        
+
+        <button className='add-btn'>&#10010;</button>
+
+        {this.state.persons.map((item, index) => {
+            return (
+              
+              <div className='contacts__list' key={`person-${index}`}>               
+                <input className='item' type='text' placeholder={item.firstName}></input>
+                <input className='item' type='text' placeholder={item.lastName}></input>
+                <input className='item' type='text' placeholder={item.phone}></input>
+                <input className='item' type='text' placeholder={item.email}></input> 
+                <button className='del-btn' onClick={() => {this.removeContact(item.id)}}>&#10006;</button>              
+              </div>
+            );
+          })}             
         
       </div>
     )

@@ -1,4 +1,48 @@
 .contacts{
   text-align: center;
-  margin-top: 100px; 
+  margin-top: 100px;
+
+  & .add-btn{
+    color: white;
+    background:  #427ab3;
+    width: 30px;
+    height: 30px;
+    margin-bottom: 2rem;
+    outline: none;
+
+    &:hover{
+      cursor: pointer;
+      background: #6099d3;
+      border: 1px solid #fff;
+    }   
+  } 
+  
+  &__list{
+    padding-bottom: 1rem;
+    text-align: left;
+    margin-left: 24%;
+
+    & .del-btn{
+      color: white;
+      background:  #427ab3;
+      width: 25px;
+      height: 25px;
+      outline: none;
+
+      &:hover{
+        cursor: pointer;
+        background: #6099d3;
+        border: 0.5px solid #fff;
+      }
+    }   
+    
+    & .item{
+      padding: 0.7rem;
+      font-size: 18px;
+      color: #444;
+      border: none;
+      border-bottom:0.5px solid #ced4da;
+      outline: none;
+    }
+  }
 }
