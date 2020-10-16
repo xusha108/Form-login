@@ -1,0 +1,32 @@
+.modal{
+  height: 100vh;
+  width: 100vw;
+  background-color: white;
+  position: fixed;
+  top:0;
+  left:0;
+  display: none;
+
+ &.active{
+    display: block;    
+  }
+  
+  &__content{
+    margin-top: 150px;  
+  }
+
+.del-btn{
+  color: white;
+  background:  #427ab3;
+  width: 25px;
+  height: 25px;
+  outline: none;
+  margin-left: 700px;
+
+  &:hover{
+    cursor: pointer;
+    background: #6099d3;
+    border: 0.5px solid #fff;
+  }
+}  
+}

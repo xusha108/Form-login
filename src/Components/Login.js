@@ -1,24 +1,25 @@
-import React, { Component } from 'react';
+import React from 'react';
 import '../assets/login.scss';
-import {Link} from 'react-router-dom';
 
-export default class Login extends Component {
-  render() {
+
+export default function Login (props) {
     return (
       <div className='login'>
         <h2 className='login__title'>Login</h2>
 
         <div className='login__input'>
-          <input  type='text' placeholder='Enter yor name'></input>
+          <input  type='text' name='login' value={props.login} placeholder='Enter login' onChange = { (e) => {props.hendlerInputLogin(e)} } />
         </div>
 
         <div className='login__input'>
-          <input  type='text' placeholder='Enter password'></input>
+          <input  type='password' name='pass' value={props.pass} placeholder='Enter password' onChange = { (e) => {props.hendlerInputPass(e)} } />
         </div>
 
-        <Link to={'/contacts'}><button className='login__btn'>Login</button></Link>         
+       <button className='login__btn' onClick={ () => {props.auth()} }>Login</button>       
         
+       
       </div>
+
     )
   }
-}
+
