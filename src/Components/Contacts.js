@@ -2,20 +2,19 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import '../assets/contacts.scss';
 import AddContact from './AddContact';
-import DataSearch from './DataSearch';
-
+import SearchContact from './SearchContact';
 
 export default class Contacts extends Component {
   state = {
-    persons: [],
-    searchPersons: [],
-    showModal: false, 
-
-
-    firstName:'',
-    lastName:'',
-    phone:'',
-    email:'',      
+    persons: [], 
+    search: '',   
+    showModal: false,       
+    newPerson: {
+      firstName:'',
+      lastName:'',
+      phone:'',
+      email:''
+    }         
   }
 
   componentDidMount() {
@@ -30,22 +29,29 @@ export default class Contacts extends Component {
     })
   }
 
- addContact  = () => {  
-   this.setState( {firstname: this.state.firstName } ) 
-   console.log('firstname',this.state.firstName)
-   console.log('lastName',this.state.lastName)
-  
-  
-    // if (this.state.persons.value !== "") {
-    //   let newItem = {
-    //     text: this.state.persons.value,
-    //     id: Date.now()
-    //   };   
-    //   this.setState((prevState) => {
-    //     return { persons: prevState.persons.concat(newItem) };
-    //   }); 
-    // }       
-  }    
+ hendlerContact  = (target) => {  
+    this.setState( {[target.name]: target.value } )    
+  }
+
+ addContact  = () => {
+  let newPerson = {...this.state.newPerson}
+  newPerson.firstName = this.state.firstName
+  newPerson.lastName = this.state.lastName
+  newPerson.phone = this.state.phone
+  newPerson.email = this.state.email
+ 
+   this.setState({
+     persons: [...this.state.persons, {id: Date.now(), ...newPerson}]
+    })
+
+  this.setState({ 
+        firstName:'',
+        lastName:'',
+        phone:'',
+        email:''
+      })
+    }       
+      
 
   onChangeModalState  = () => {    
     this.setState( {showModal: !this.state.showModal} ); 
@@ -57,20 +63,25 @@ export default class Contacts extends Component {
     this.setState({ persons: removeId });     
   };
 
-  dataSearch  = (e) => {  
-    const filter = this.state.persons.filter(result => {
+  dataSearch  = (e) => {      
+    let filteredPersons = this.state.persons;  
+    const filter = filteredPersons.filter(result => {
       return result.firstName.toLowerCase().search(e.target.value.toLowerCase()) !== -1 || 
           result.lastName.toLowerCase().search(e.target.value.toLowerCase()) !== -1      
-    })    
-    this.setState( {persons: filter} );     
+    })        
+   this.setState(filter);     
   }
 
-  render() {  
+  render() { 
+
+    // сделать фильтр с бекспейс
+     
+
     return (
       <div className='contacts'>
         <h2 className='login__title'>Contacts</h2>
 
-        <DataSearch
+        <SearchContact        
           dataSearch={this.dataSearch}        
         />        
 
@@ -82,7 +93,9 @@ export default class Contacts extends Component {
           phone={this.state.phone}
           onChangeModalState={this.onChangeModalState}
           addContact={this.addContact}
+          hendlerContact={this.hendlerContact}
         />
+        
 
         <button className='add-btn' onClick={() => {this.onChangeModalState()}}>&#10010;</button>
 

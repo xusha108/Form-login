@@ -4,23 +4,6 @@ import '../assets/modal.scss';
 
 export default class AddContact extends Component {
 
-  handleNameChange = (e) => {
-    this.setState({firstName: e.target.value})
-    console.log('firstName', e.target.value)
-  }
-
-  handleSurnameChange = (e) => {
-    this.setState({lastName: e.target.value})
-  }
-
-  handlePhoneChange = (e) => {
-    this.setState({phone: e.target.value})
-  }
-
-  handleEmailChange = (e) => {
-    this.setState({email: e.target.value})
-  }
-
   render() {
     let toggleClass = (this.props.active) ? 'modal active' : 'modal';    
   
@@ -31,28 +14,49 @@ export default class AddContact extends Component {
           <button className='del-btn' onClick={() => {this.props.onChangeModalState()}}>&#10006;</button>
 
           <div className='login__input'>
-            <input  type='text' name='firstName'  placeholder='Enter first name' onChange={this.handleNameChange} />
+            <input  
+             type='text' 
+             name='firstName' 
+             value={this.props.name || ''} 
+             placeholder='Enter first name' 
+             onChange={ (el) => this.props.hendlerContact(el.target) } 
+            />
           </div>
 
           <div className='login__input'>
-            <input  type='text' name='lastName'  placeholder='Enter last name' onChange={ this.handleSurnameChange} />
+            <input  
+              type='text' 
+              name='lastName'  
+              value={this.props.surname || ''} 
+              placeholder='Enter last name' 
+              onChange={ (el) => this.props.hendlerContact(el.target)} 
+            />
           </div>
 
           <div className='login__input'>
-            <input  type='text' name='phone'  placeholder='Enter phone' onChange={this.handlePhoneChange}  />
+            <input  
+              type='text' 
+              name='phone'  
+              value={this.props.phone || ''} 
+              placeholder='Enter phone' 
+              onChange={(el) => this.props.hendlerContact(el.target)}  
+            />
           </div>
 
           <div className='login__input'>
-            <input  type='email' name='email'  placeholder='Enter email' onChange={this.handleEmailChange}   />
+            <input  
+              type='email'
+              name='email' 
+              value={this.props.email || ''}  
+              placeholder='Enter email' 
+              onChange={(el) => this.props.hendlerContact(el.target)}   
+            />
           </div>
 
-        <button className='login__btn'
-          name={this.props.firstName}
-          surname={this.props.lastName}
-          email={this.props.email}
-          phone={this.props.phone}
-          onClick={ () => {this.props.addContact()} }       
-        >
+        <button 
+          className='login__btn'  
+          onClick={ () => this.props.addContact() } 
+          >
           Add Contact
         </button> 
 
