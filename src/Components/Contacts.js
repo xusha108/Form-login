@@ -7,7 +7,8 @@ import SearchContact from './SearchContact';
 export default class Contacts extends Component {
   state = {
     persons: [], 
-    search: '',   
+    searchValue: '', 
+    filteredPersons: [],  
     showModal: false,       
     newPerson: {
       firstName:'',
@@ -63,26 +64,24 @@ export default class Contacts extends Component {
     this.setState({ persons: removeId });     
   };
 
-  dataSearch  = (e) => {      
-    let filteredPersons = this.state.persons;  
-    const filter = filteredPersons.filter(result => {
-      return result.firstName.toLowerCase().search(e.target.value.toLowerCase()) !== -1 || 
-          result.lastName.toLowerCase().search(e.target.value.toLowerCase()) !== -1      
-    })        
-   this.setState(filter);     
+  dataSearch  = (e) => {  
+    this.setState ( {searchValue: e.target.value} )
   }
 
   render() { 
-
-    // сделать фильтр с бекспейс
-     
+    const {persons, searchValue} = this.state;
+    let fileredContacts = persons.filter( (contact)=> {
+      return contact.firstName.toLowerCase().indexOf(searchValue) !== -1 ||
+        contact.lastName.toLowerCase().indexOf(searchValue) !== -1
+    })
 
     return (
       <div className='contacts'>
         <h2 className='login__title'>Contacts</h2>
 
         <SearchContact        
-          dataSearch={this.dataSearch}        
+          dataSearch={this.dataSearch} 
+          value={this.state.searchValue}       
         />        
 
         <AddContact 
@@ -94,12 +93,11 @@ export default class Contacts extends Component {
           onChangeModalState={this.onChangeModalState}
           addContact={this.addContact}
           hendlerContact={this.hendlerContact}
-        />
-        
+        />        
 
         <button className='add-btn' onClick={() => {this.onChangeModalState()}}>&#10010;</button>
 
-        {this.state.persons.map((item, index) => {
+        {fileredContacts.map((item, index) => {
             return (              
               <div className='contacts__list' key={`person-${index}`}>               
                 <input className='item' type='text' placeholder={item.firstName}></input>

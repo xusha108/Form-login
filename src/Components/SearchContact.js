@@ -7,7 +7,7 @@ export default function SearchContact (props) {
           <input 
             type='text'
             placeholder='search...'
-            value={props.search}
+            value={props.searchValue}
             onChange={ (e) => {props.dataSearch(e)}
           } 
           />
